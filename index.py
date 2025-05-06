@@ -16,7 +16,7 @@ def home():
             # Generate summary; adjust max_length/min_length as needed
             summary_objs = summarizer(text, max_length=150, min_length=40, do_sample=False)  # :contentReference[oaicite:2]{index=2}
             summary = summary_objs[0]["summary_text"]
-    return render_template(r"C:\Users\divya\Downloads\vercel-app\templates\index.html", summary=summary)
+    return render_template("index.html", summary=summary)
 
 if __name__ == "__main__":
     # Local dev run
