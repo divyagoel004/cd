@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from transformers import pipeline
-
+import os
 app = Flask(__name__)
 
 
