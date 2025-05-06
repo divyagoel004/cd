@@ -19,5 +19,5 @@ def home():
 
 if __name__ == "__main__":
     # Local dev run
-    port = int(os.environ.get("PORT", 5000))  # Use Render-provided PORT
+    port = int(os.environ.get("PORT", 10000))  # Fall back to 10000 locally
     app.run(host="0.0.0.0", port=port, debug=True)
