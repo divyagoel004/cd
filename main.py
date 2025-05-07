@@ -1,25 +1,23 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request
 from transformers import pipeline
 
 app = Flask(__name__)
 
-# Initialize the summarization pipeline
-summarizer = pipeline("summarization", model="t5-small")
 
-@app.route('/summarize', methods=['POST'])
-def summarize_text():
-    data = request.get_json()
-    if not data or 'text' not in data:
-        return jsonify({'error': 'No text provided'}), 400
+summarizer = pipeline("summarization", model="t5-small") 
 
-    text = data['text']
+@app.route("/", methods=["GET", "POST"])
+def home():
+    summary = None
+    if request.method == "POST":
+        text = request.form.get("text")
+        if text:
+           
+            summary_objs = summarizer(text, max_length=150, min_length=40, do_sample=False) 
+            summary = summary_objs[0]["summary_text"]
+    return render_template("index.html", summary=summary)
 
-    # Perform summarization
-    summary = summarizer(text, max_length=150, min_length=40, do_sample=False)
-    summarized_text = summary[0]['summary_text']
-
-    return jsonify({'summary': summarized_text})
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    # Local dev run
+    app.run(debug=True,host='0.0.0.0', port=3000)
 
